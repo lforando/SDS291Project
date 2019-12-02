@@ -5,26 +5,51 @@ date: "11/26/2019"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+
+```{r, messages = FALSE}
+library(readxl)
+library(tidyverse)
+library(mosaic)
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r, message = FALSE}
+#Bringing in our dataset
+bodyfat <- read_excel("bodyfat.xlsx")
+attach(bodyfat)
+glimpse(bodyfat)
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+#Renaming variable columns for easier use
+neck_size <- bodyfat %>%
+  select(`Age (years)`, `Weight (lbs)`, `Wrist circumference (cm)`, `Biceps (extended) circumference (cm)`, `Height (inches)`, `Neck circumference (cm)`) %>% rename(
+  age = 'Age (years)',
+  weight = 'Weight (lbs)',
+  wrist = 'Wrist circumference (cm)',
+  bicep = 'Biceps (extended) circumference (cm)',
+  height = 'Height (inches)',
+  neck = 'Neck circumference (cm)')
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+#Linear Regression Model w/o Interactions
+neck_lm <- lm(neck ~ age + weight + wrist + bicep + height, data = neck_size)
+summary(neck_lm)
+
+#Linear Regression Model w/o Height
+no_height_lm <- lm(neck ~ age + weight + wrist + bicep, data = neck_size)
+summary(no_height_lm)
+
+#Including height only increases our R^2 value by 0.0001. By removing height, our adjusted R^2 increases from 0.7386 to 0.7396. So, the model without height is a better predictor of neck size than the model including height. 
+```
+
+
+
+
+
+```{r}
+#Plot residuals
+par(mfrow=c(2,2))
+plot(neck_lm)
+```
+
