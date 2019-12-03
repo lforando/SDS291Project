@@ -21,6 +21,8 @@ glimpse(bodyfat)
 
 ```{r}
 #Renaming variable columns for easier use
+#we decided to rename our variable columns because the original variable names were too long and could easily be messed up. Using the dplyr package, we selected the variables we were interested in and put them into a new dataframe we titled "neck_size". Then, using the tidyverse package, we were able to use the rename function which allows us to rename any variable. We decided to rename the variables we were interested in with shorter names for easier coding purposes. 
+
 neck_size <- bodyfat %>%
   select(`Age (years)`, `Weight (lbs)`, `Wrist circumference (cm)`, `Biceps (extended) circumference (cm)`, `Height (inches)`, `Neck circumference (cm)`) %>% rename(
   age = 'Age (years)',
@@ -32,7 +34,9 @@ neck_size <- bodyfat %>%
 ```
 
 ```{r}
-#Linear Regression Model w/o Interactions
+#First, we wanted to analyze the relationship between anticipated neck size and age, weight, wrist circumference, bicept circumference, and height. Because we are looking at multiple predictor variables, we will be running a Multiple Linear Regression (MLR) model. 
+
+#Linear Regression Model With Our 5 Predictor Variables
 neck_lm <- lm(neck ~ age + weight + wrist + bicep + height, data = neck_size)
 summary(neck_lm)
 
@@ -41,15 +45,17 @@ no_height_lm <- lm(neck ~ age + weight + wrist + bicep, data = neck_size)
 summary(no_height_lm)
 
 #Including height only increases our R^2 value by 0.0001. By removing height, our adjusted R^2 increases from 0.7386 to 0.7396. So, the model without height is a better predictor of neck size than the model including height. 
+
+
+##########################Add comment about the coefficients, p-values, and intercepts. 
 ```
-
-
-
 
 
 ```{r}
 #Plot residuals
 par(mfrow=c(2,2))
 plot(neck_lm)
+##########################Add comment about each of the four residual plots.
+#note: there is at least one outlier according to the Residuals vs Leverage plot.
 ```
 
