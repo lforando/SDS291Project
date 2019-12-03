@@ -1,6 +1,6 @@
 ---
 title: "SDS291 - Project"
-author: "Lauren Forando, Elle Jo Whalen"
+author: "Lauren Forando, Elle Jo Whalen, Jemimah Charles"
 date: "11/26/2019"
 output: html_document
 ---
