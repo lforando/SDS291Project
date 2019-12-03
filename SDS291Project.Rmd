@@ -6,7 +6,7 @@ output: html_document
 ---
 
 
-```{r, messages = FALSE}
+```{r, messages = FALSE, include = FALSE}
 library(readxl)
 library(tidyverse)
 library(mosaic)
@@ -16,10 +16,10 @@ library(mosaic)
 #Bringing in our dataset
 bodyfat <- read_excel("bodyfat.xlsx")
 attach(bodyfat)
-glimpse(bodyfat)
+#glimpse(bodyfat)
 ```
 
-```{r}
+```{r, include = FALSE}
 #Renaming variable columns for easier use
 #we decided to rename our variable columns because the original variable names were too long and could easily be messed up. Using the dplyr package, we selected the variables we were interested in and put them into a new dataframe we titled "neck_size". Then, using the tidyverse package, we were able to use the rename function which allows us to rename any variable. We decided to rename the variables we were interested in with shorter names for easier coding purposes. 
 
@@ -36,11 +36,11 @@ neck_size <- bodyfat %>%
 ```{r}
 #First, we wanted to analyze the relationship between anticipated neck size and age, weight, wrist circumference, bicept circumference, and height. Because we are looking at multiple predictor variables, we will be running a Multiple Linear Regression (MLR) model. 
 
-#Linear Regression Model With Our 5 Predictor Variables
+#Multiple Regression Model With Our 5 Predictor Variables
 neck_lm <- lm(neck ~ age + weight + wrist + bicep + height, data = neck_size)
 summary(neck_lm)
 
-#Linear Regression Model w/o Height
+#Multiple Regression Model w/o Height
 no_height_lm <- lm(neck ~ age + weight + wrist + bicep, data = neck_size)
 summary(no_height_lm)
 
@@ -55,7 +55,11 @@ summary(no_height_lm)
 #Plot residuals
 par(mfrow=c(2,2))
 plot(neck_lm)
-##########################Add comment about each of the four residual plots.
-#note: there is at least one outlier according to the Residuals vs Leverage plot.
+
+#The Residuals vs Fitted model shows that most of the data points fall equally above and below a horizontal line, but there are two possible outliers. This indicates that there is constant variance between our data points.
+
+#The Normal Q-Q plot shows that the majority of our data points fall on a straight line. However, once again there is a possible outlier which is significantly below the straight line. Because the majority of our data points fall aprroximately on a straight line, this indicates that our data is noramlly distributed.
+
+#The Residuals vs Leverage plot tells us there there is one possible outlier since one of the data points is past the designated area of Cook's distance.
 ```
 
