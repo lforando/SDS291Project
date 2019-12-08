@@ -46,7 +46,6 @@ summary(no_height_lm)
 
 #Including height only increases our R^2 value by 0.0001. By removing height, our adjusted R^2 increases from 0.7386 to 0.7396. So, the model without height is a better predictor of neck size than the model including height. 
 
-
 ##########################Add comment about the coefficients, p-values, and intercepts. 
 ```
 
@@ -63,3 +62,13 @@ plot(neck_lm)
 #The Residuals vs Leverage plot tells us there there is one possible outlier since one of the data points is past the designated area of Cook's distance.
 ```
 
+```{r}
+plot(neck ~ age, data = neck_size)
+plot(neck ~ weight, data = neck_size)
+plot(neck ~ wrist, data = neck_size)
+plot(neck ~ bicep, data = neck_size)
+plot(neck ~ height, data = neck_size)
+
+
+#If we look at indiviual scatterplots for each of our predictor variables, we see that weight, wrist size, and bicep size all have fairly strong positive linear correlations with neck size. However, both age and height showed almost no correlation with neck size.
+```
