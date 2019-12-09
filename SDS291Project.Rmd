@@ -34,6 +34,16 @@ neck_size <- bodyfat %>%
 ```
 
 ```{r}
+plot(neck ~ age, data = neck_size)
+plot(neck ~ weight, data = neck_size)
+plot(neck ~ wrist, data = neck_size)
+plot(neck ~ bicep, data = neck_size)
+plot(neck ~ height, data = neck_size)
+
+#If we look at indiviual scatterplots for each of our predictor variables, we see that weight, wrist size, and bicep size all have fairly strong positive linear correlations with neck size. However, both age and height showed almost no correlation with neck size.
+```
+
+```{r}
 #First, we wanted to analyze the relationship between anticipated neck size and age, weight, wrist circumference, bicept circumference, and height. Because we are looking at multiple predictor variables, we will be running a Multiple Linear Regression (MLR) model. 
 
 #Multiple Regression Model With Our 5 Predictor Variables
@@ -79,13 +89,13 @@ confint(no_age_lm)
 ```{r}
 #Plot residuals
 par(mfrow=c(2,2))
-plot(neck_lm)
+plot(no_age_lm)
 
-#The Residuals vs Fitted model shows that most of the data points fall equally above and below a horizontal line, but there are two possible outliers. This indicates that there is constant variance between our data points.
+#The Residuals vs Fitted model shows that most of the data points fall equally above and below a horizontal line. This indicates that there is constant variance between our data points.
 
-#The Normal Q-Q plot shows that the majority of our data points fall on a straight line. However, once again there is a possible outlier which is significantly below the straight line. Because the majority of our data points fall aprroximately on a straight line, this indicates that our data is noramlly distributed.
+#The Normal Q-Q plot shows that the majority of our data points fall on a straight line.
 
-#The Residuals vs Leverage plot tells us there there is one possible outlier since one of the data points is past the designated area of Cook's distance.
+#The Residuals vs Leverage plot tells us there there are no outliers since none of the data points are past the designated area of Cook's distance.
 ```
 
 ```{r}
@@ -106,16 +116,7 @@ mutate(h_i = neck_diag$hat,
 
 Neck
 
-#There are 26 possible men that can be classified as “unusual” according to the critiera set above.
+#There are 26 possible men that can be classified as “unusual” according to the set above.
 
 ```
 
-```{r}
-plot(neck ~ age, data = neck_size)
-plot(neck ~ weight, data = neck_size)
-plot(neck ~ wrist, data = neck_size)
-plot(neck ~ bicep, data = neck_size)
-plot(neck ~ height, data = neck_size)
-
-#If we look at indiviual scatterplots for each of our predictor variables, we see that weight, wrist size, and bicep size all have fairly strong positive linear correlations with neck size. However, both age and height showed almost no correlation with neck size.
-```
