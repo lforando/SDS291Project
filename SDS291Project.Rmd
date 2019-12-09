@@ -58,9 +58,9 @@ anova(neck_lm, no_height_lm, no_age_lm)
 
 #The coefficient of "weight" in the model no_age_lm, is understood as for every increase of one pound in someone's weight, there is a 0.042 cm increase in the measurement of someone's neck, holding all other variables constant. 
 
-The coefficient of "wrist" in the model no_age_lm, is understood as for every increase in the measurement of someone's wrist circumference by one centimeter, there is a 0.73 cm increase in the measurement of someone's neck, holding all other variables constant.
+#The coefficient of "wrist" in the model no_age_lm, is understood as for every increase in the measurement of someone's wrist circumference by one centimeter, there is a 0.73 cm increase in the measurement of someone's neck, holding all other variables constant.
 
-The coefficient of "bicep" in the model no_age_lm, is understood as for every increase in the measurement of someone's bicep circumference by one centimeter, there is a 0.118 cm increase in the measurement of someone's neck, holding all other variables constant.
+#The coefficient of "bicep" in the model no_age_lm, is understood as for every increase in the measurement of someone's bicep circumference by one centimeter, there is a 0.118 cm increase in the measurement of someone's neck, holding all other variables constant.
 ```
 
 
