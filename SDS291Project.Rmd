@@ -48,17 +48,31 @@ summary(no_height_lm)
 no_age_lm <- lm(neck ~ weight + wrist + bicep, data = neck_size)
 summary(no_age_lm)
 
-
+#ANOVA of our three possible models to determine which model is the best.
 anova(neck_lm, no_height_lm, no_age_lm)
 
 
 #Including height only increases our R^2 value by 0.0001. By removing height, our adjusted R^2 increases from 0.7386 to 0.7396. So, the model without height is a better predictor of neck size than the model including height. 
+
+# As we look at the p-values for each multiple regression model we see that our third model, the one without height or age, has the lowest p-value, it 0.0309 making it the most statistically significant model. The second regression model without height only, has a p-value of 0.7978 showing that the relationship between neck circumference, age, wight, wrist circumference, and bicep circumference is less statistically significant than the third model. This means that height and weight are less correlated to the neck circumference.
+
+
+#The intercept of “neck” in the model no_age_lm, is understood as for someone who weighs zero pounds and has both a wrist and bicep circumference of zero centimeters, will have a neck circumference of 13.31 cm.
 
 #The coefficient of "weight" in the model no_age_lm, is understood as for every increase of one pound in someone's weight, there is a 0.042 cm increase in the measurement of someone's neck, holding all other variables constant. 
 
 #The coefficient of "wrist" in the model no_age_lm, is understood as for every increase in the measurement of someone's wrist circumference by one centimeter, there is a 0.73 cm increase in the measurement of someone's neck, holding all other variables constant.
 
 #The coefficient of "bicep" in the model no_age_lm, is understood as for every increase in the measurement of someone's bicep circumference by one centimeter, there is a 0.118 cm increase in the measurement of someone's neck, holding all other variables constant.
+
+#Finding the confidence interval for our third model 
+confint(no_age_lm)
+
+#We are 95% confident that the true effect of weight on neck circumference, controlling for wrist and bicep circumference, is 0.03194604 and 0.05207665.
+
+#We are 95% confident that the true effect of wrist on neck circumference, controlling for weight and bicep circumference, is 0.48767606 and 0.97792142.
+
+#We are 95% confident that the true effect of bicep circumference on neck circumference, controlling for weight and wrist circumference, is 0.03165438 and 0.20443122.
 ```
 
 
@@ -91,6 +105,8 @@ mutate(h_i = neck_diag$hat,
   filter(stnd_res > 2|stnd_res < -2| stud_res > 2|stud_res < -2| cooks >= 0.5| h_i >= hi_funusual)
 
 Neck
+
+#There are 26 possible men that can be classified as “unusual” according to the critiera set above.
 
 ```
 
