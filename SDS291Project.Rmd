@@ -64,8 +64,11 @@ anova(neck_lm, no_height_lm, no_age_lm)
 
 #Including height only increases our R^2 value by 0.0001. By removing height, our adjusted R^2 increases from 0.7386 to 0.7396. So, the model without height is a better predictor of neck size than the model including height. 
 
-# As we look at the p-values for each multiple regression model we see that our third model, the one without height or age, has the lowest p-value, it 0.0309 making it the most statistically significant model. The second regression model without height only, has a p-value of 0.7978 showing that the relationship between neck circumference, age, wight, wrist circumference, and bicep circumference is less statistically significant than the third model. This means that height and weight are less correlated to the neck circumference.
+#Looking at the p-values for the coefficients in our first model, we see that the p value for height is 0.7978 making this variable not statistically significant to our regression model therefore we removed it in our second model.
 
+#Then turning to our coefficient p-values in our second regression model, we see that age has the highest p-value at 0.03058, although being low enough to be statistically significant, it was still very high compared to the other p-values. We removed this because looking back at the individual scatter plots we see that the scatter plot between neck curcumference and age had no correlation.
+
+#As we look at the p-values for each multiple regression model we see that our third model, the one without height or age, has the lowest p-value, it 0.0309 making it the most statistically significant model. The second regression model without height only, has a p-value of 0.7978 showing that the relationship between neck circumference, age, wight, wrist circumference, and bicep circumference is less statistically significant than the third model. This means that height and weight are less correlated to the neck circumference.
 
 #The intercept of “neck” in the model no_age_lm, is understood as for someone who weighs zero pounds and has both a wrist and bicep circumference of zero centimeters, will have a neck circumference of 13.31 cm.
 
@@ -99,13 +102,18 @@ plot(no_age_lm)
 ```
 
 ```{r}
+#Outliers, Leverage, and Influence
+##Outliers: Points that do not fit the regression line well, far away vertically from other points.
+##Leverage: How far away a point is horizontally from the center of the data.
+##Influence: How much a point draws the slope of the regression toward that point
 
+#Identifying Unusual Points in Regression
 neck_diag <- ls.diag(no_age_lm)
 
 hi_funusual = 8/282
 hi_vunusual = 10/282
 
-Neck <- neck_size %>%
+Unusual_Neck <- neck_size %>%
 mutate(h_i = neck_diag$hat,
        resid = no_age_lm$resid, 
        stnd_res = neck_diag$std.res, 
@@ -114,9 +122,21 @@ mutate(h_i = neck_diag$hat,
        cooks = neck_diag$cooks) %>%
   filter(stnd_res > 2|stnd_res < -2| stud_res > 2|stud_res < -2| cooks >= 0.5| h_i >= hi_funusual)
 
-Neck
+Unusual_Neck
 
-#There are 26 possible men that can be classified as “unusual” according to the set above.
+V_Unusual_Neck <- neck_size %>%
+mutate(h_i = neck_diag$hat,
+       resid = no_age_lm$resid, 
+       stnd_res = neck_diag$std.res, 
+       stud_res = neck_diag$stud.res, 
+       fitted = no_age_lm$fitted,
+       cooks = neck_diag$cooks) %>%
+  filter(stnd_res > 3|stnd_res < -3| stud_res > 3|stud_res < -3| cooks >= 1| h_i >= hi_vunusual)
+
+V_Unusual_Neck
+
+#There are 26 possible men that can be classified as “unusual” according to the set above. The 26 men are given in the table below, including their age, weight, wrist size, bicep size, height, and neck circumference, as well as their "fairly usual" identification statistics. Out of those 26 men, 11 of them can be considered to be very "unusual".
+
 
 ```
 
