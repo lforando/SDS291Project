@@ -54,13 +54,7 @@ anova(neck_lm, no_height_lm, no_age_lm)
 
 #Including height only increases our R^2 value by 0.0001. By removing height, our adjusted R^2 increases from 0.7386 to 0.7396. So, the model without height is a better predictor of neck size than the model including height. 
 
-##########################Add comment about the coefficients, p-values, and intercepts.
-
-#The coefficient of "weight" in the model no_age_lm, is understood as for every increase of one pound in someone's weight, there is a 0.042 cm increase in the measurement of someone's neck, holding all other variables constant. 
-
-#The coefficient of "wrist" in the model no_age_lm, is understood as for every increase in the measurement of someone's wrist circumference by one centimeter, there is a 0.73 cm increase in the measurement of someone's neck, holding all other variables constant.
-
-#The coefficient of "bicep" in the model no_age_lm, is understood as for every increase in the measurement of someone's bicep circumference by one centimeter, there is a 0.118 cm increase in the measurement of someone's neck, holding all other variables constant.
+##########################Add comment about the coefficients, p-values, and intercepts. 
 ```
 
 
@@ -74,6 +68,26 @@ plot(neck_lm)
 #The Normal Q-Q plot shows that the majority of our data points fall on a straight line. However, once again there is a possible outlier which is significantly below the straight line. Because the majority of our data points fall aprroximately on a straight line, this indicates that our data is noramlly distributed.
 
 #The Residuals vs Leverage plot tells us there there is one possible outlier since one of the data points is past the designated area of Cook's distance.
+```
+
+```{r}
+
+neck_diag <- ls.diag(no_age_lm)
+
+hi_funusual = 8/282
+hi_vunusual = 10/282
+
+Neck <- neck_size %>%
+mutate(h_i = neck_diag$hat,
+       resid = no_age_lm$resid, 
+       stnd_res = neck_diag$std.res, 
+       stud_res = neck_diag$stud.res, 
+       fitted = no_age_lm$fitted,
+       cooks = neck_diag$cooks) %>%
+  filter(stnd_res > 2|stnd_res < -2| stud_res > 2|stud_res < -2| cooks >= 0.5| h_i >= hi_funusual)
+
+Neck
+
 ```
 
 ```{r}
