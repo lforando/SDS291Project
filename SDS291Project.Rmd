@@ -4,8 +4,6 @@ author: "Lauren Forando, Elle Jo Whalen, Jemimah Charles"
 date: "12/10/2019"
 output: html_document
 ---
-
-
 ```{r, messages = FALSE, include = FALSE}
 library(readxl)
 library(tidyverse)
@@ -19,8 +17,17 @@ attach(bodyfat)
 #glimpse(bodyfat)
 ```
 
+**Introduction**
+
+The purpose of our project is to estimate a male individual’s neck circumference based on their age, weight, wrist circumference, bicep circumference and height. Knowing your neck circumference is a common measurement that men often need to know to buy clothing such as a button down shirt or even ties that go around their neck. This is also important for the clothing industry since men often need to know what their specific neck size is when shopping for business attire. This would allow the clothing industry to produce the correct amount of items for each size by allowing them to see the range and median of sizes.
+
+The original dataset includes estimates of the percentage of body fat determined by underwater weighing and various body circumference measurements for 252 men between the ages of 22 and 81. While the initial purpose of the data set was to determine body fat percentage of men based on a multitude of predictor variables, in our case we are interested in exploring whether or not there is a linear relationship between an individuals’ neck circumference and age, weight, wrist circumference, bicep circumference and height; and if we can appropriately estimate an individuals’ neck circumference knowing their age, weight, wrist circumference, bicep circumference and height. We felt it was important to include both wrist circumference and bicep circumference, because these are also factors when buying clothing. 
+
+Our population is 252 men between the ages of 22 and 81. The following variables were collected for each of the men: Density determined from underwater weighing, Percent body fat from Siri's (1956) equation, Age (years), Weight (lbs), Height (inches), Neck circumference (cm), Chest circumference (cm), Abdomen 2 circumference (cm), Hip circumference (cm), Thigh circumference (cm), Knee circumference (cm), Ankle circumference (cm), Biceps (extended) circumference (cm), Forearm circumference (cm), Wrist circumference (cm). Each column of the data set (from left to right) corresponds to each variable (first to last). With this data we will find the estimate of a male individual’s neck circumference based on their age, weight, wrist circumference, bicep circumference and height.
+
 ```{r, include = FALSE}
 #Renaming variable columns for easier use
+
 #we decided to rename our variable columns because the original variable names were too long and could easily be messed up. Using the dplyr package, we selected the variables we were interested in and put them into a new dataframe we titled "neck_size". Then, using the tidyverse package, we were able to use the rename function which allows us to rename any variable. We decided to rename the variables we were interested in with shorter names for easier coding purposes. 
 
 neck_size <- bodyfat %>%
@@ -39,9 +46,11 @@ plot(neck ~ weight, data = neck_size)
 plot(neck ~ wrist, data = neck_size)
 plot(neck ~ bicep, data = neck_size)
 plot(neck ~ height, data = neck_size)
-
-#If we look at indiviual scatterplots for each of our predictor variables, we see that weight, wrist size, and bicep size all have fairly strong positive linear correlations with neck size. However, both age and height showed almost no correlation with neck size.
 ```
+
+If we look at indiviual scatterplots for each of our predictor variables, we see that weight, wrist size, and bicep size all have fairly strong positive linear correlations with neck size. However, both age and height showed almost no correlation with neck size.
+
+
 
 ```{r}
 #First, we wanted to analyze the relationship between anticipated neck size and age, weight, wrist circumference, bicept circumference, and height. Because we are looking at multiple predictor variables, we will be running a Multiple Linear Regression (MLR) model. 
@@ -61,45 +70,34 @@ summary(no_age_lm)
 #ANOVA of our three possible models to determine which model is the best.
 anova(neck_lm, no_height_lm, no_age_lm)
 
-
-#Including height only increases our R^2 value by 0.0001. By removing height, our adjusted R^2 increases from 0.7386 to 0.7396. So, the model without height is a better predictor of neck size than the model including height. 
-
-#Looking at the p-values for the coefficients in our first model, we see that the p value for height is 0.7978 making this variable not statistically significant to our regression model therefore we removed it in our second model.
-
-#Then turning to our coefficient p-values in our second regression model, we see that age has the highest p-value at 0.03058, although being low enough to be statistically significant, it was still very high compared to the other p-values. We removed this because looking back at the individual scatter plots we see that the scatter plot between neck curcumference and age had no correlation.
-
-#As we look at the p-values for each multiple regression model we see that our third model, the one without height or age, has the lowest p-value, it 0.0309 making it the most statistically significant model. The second regression model without height only, has a p-value of 0.7978 showing that the relationship between neck circumference, age, wight, wrist circumference, and bicep circumference is less statistically significant than the third model. This means that height and weight are less correlated to the neck circumference.
-
-#The intercept of “neck” in the model no_age_lm, is understood as for someone who weighs zero pounds and has both a wrist and bicep circumference of zero centimeters, will have a neck circumference of 13.31 cm.
-
-#The coefficient of "weight" in the model no_age_lm, is understood as for every increase of one pound in someone's weight, there is a 0.042 cm increase in the measurement of someone's neck, holding all other variables constant. 
-
-#The coefficient of "wrist" in the model no_age_lm, is understood as for every increase in the measurement of someone's wrist circumference by one centimeter, there is a 0.73 cm increase in the measurement of someone's neck, holding all other variables constant.
-
-#The coefficient of "bicep" in the model no_age_lm, is understood as for every increase in the measurement of someone's bicep circumference by one centimeter, there is a 0.118 cm increase in the measurement of someone's neck, holding all other variables constant.
-
 #Finding the confidence interval for our third model 
 confint(no_age_lm)
-
-#We are 95% confident that the true effect of weight on neck circumference, controlling for wrist and bicep circumference, is 0.03194604 and 0.05207665.
-
-#We are 95% confident that the true effect of wrist on neck circumference, controlling for weight and bicep circumference, is 0.48767606 and 0.97792142.
-
-#We are 95% confident that the true effect of bicep circumference on neck circumference, controlling for weight and wrist circumference, is 0.03165438 and 0.20443122.
 ```
 
+Including height only increases our R^2 value by 0.0001. By removing height, our adjusted R^2 increases from 0.7386 to 0.7396. So, the model without height is a better predictor of neck size than the model including height. Looking at the p-values for the coefficients in our first model, we see that the p value for height is 0.7978 making this variable not statistically significant to our regression model therefore we removed it in our second model.Then turning to our coefficient p-values in our second regression model, we see that age has the highest p-value at 0.03058, although being low enough to be statistically significant, it was still very high compared to the other p-values. We removed this because looking back at the individual scatter plots we see that the scatter plot between neck curcumference and age had no correlation.
+
+As we look at the p-values for each multiple regression model we see that our third model, the one without height or age, has the lowest p-value, it 0.0309 making it the most statistically significant model. The second regression model without height only, has a p-value of 0.7978 showing that the relationship between neck circumference, age, wight, wrist circumference, and bicep circumference is less statistically significant than the third model. This means that height and weight are less correlated to the neck circumference.
+
+The intercept of “neck” in the model no_age_lm, is understood as for someone who weighs zero pounds and has both a wrist and bicep circumference of zero centimeters, will have a neck circumference of 13.31 cm.The coefficient of "weight" in the model no_age_lm, is understood as for every increase of one pound in someone's weight, there is a 0.042 cm increase in the measurement of someone's neck, holding all other variables constant. The coefficient of "wrist" in the model no_age_lm, is understood as for every increase in the measurement of someone's wrist circumference by one centimeter, there is a 0.73 cm increase in the measurement of someone's neck, holding all other variables constant. The coefficient of "bicep" in the model no_age_lm, is understood as for every increase in the measurement of someone's bicep circumference by one centimeter, there is a 0.118 cm increase in the measurement of someone's neck, holding all other variables constant.
+
+**Confidence Intervals**
+We are 95% confident that the true effect of weight on neck circumference, controlling for wrist and bicep circumference, is 0.03194604 and 0.05207665.We are 95% confident that the true effect of wrist on neck circumference, controlling for weight and bicep circumference, is 0.48767606 and 0.97792142.We are 95% confident that the true effect of bicep circumference on neck circumference, controlling for weight and wrist circumference, is 0.03165438 and 0.20443122.
 
 ```{r}
 #Plot residuals
 par(mfrow=c(2,2))
 plot(no_age_lm)
-
-#The Residuals vs Fitted model shows that most of the data points fall equally above and below a horizontal line. This indicates that there is constant variance between our data points.
-
-#The Normal Q-Q plot shows that the majority of our data points fall on a straight line.
-
-#The Residuals vs Leverage plot tells us there there are no outliers since none of the data points are past the designated area of Cook's distance.
 ```
+
+***
+
+* The Residuals vs Fitted model shows that most of the data points fall equally above and below a horizontal line. This indicates that there is constant variance between our data points.
+
+* The Normal Q-Q plot shows that the majority of our data points fall on a straight line.
+
+* The Residuals vs Leverage plot tells us that there are no outliers since none of the data points are past the designated area of Cook's distance. 
+
+***
 
 ```{r}
 #Outliers, Leverage, and Influence
@@ -134,9 +132,6 @@ mutate(h_i = neck_diag$hat,
   filter(stnd_res > 3|stnd_res < -3| stud_res > 3|stud_res < -3| cooks >= 1| h_i >= hi_vunusual)
 
 V_Unusual_Neck
-
-#There are 26 possible men that can be classified as “unusual” according to the set above. The 26 men are given in the table below, including their age, weight, wrist size, bicep size, height, and neck circumference, as well as their "fairly usual" identification statistics. Out of those 26 men, 11 of them can be considered to be very "unusual".
-
-
 ```
 
+There are 26 possible men that can be classified as “unusual” according to the set above. The 26 men are given in the table below, including their age, weight, wrist size, bicep size, height, and neck circumference, as well as their "fairly usual" identification statistics. Out of those 26 men, 11 of them can be considered to be very "unusual".
