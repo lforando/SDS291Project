@@ -18,10 +18,17 @@ attach(bodyfat)
 #glimpse(bodyfat)
 ```
 
-**Introduction**
+**Abstract:**
+
+
+
+
+
+**Introduction:**
 
 The purpose of our project is to estimate a male individual's neck circumference based on their age, weight, wrist size, bicep size, and height. Knowing your neck circumference is a common measurement that men often need to know in order to buy clothing such as a button down shirt or neck ties. It has also been found that there is a connection between neck size, sleep apnea, and snoring. The larger one's neck is, the more likely they will have health complications (such as breathing when sleeping). Therefore, knowing one's neck size is not only important for fashion reasons but also health reasons.
 
+**Data:**
 The original data set includes estimates of the percentage of body fat determined by underwater weighing and various body circumference measurements for 252 men between the ages of 22 and 81. While the initial purpose of the data set was to determine body fat percentage of men based on a multitude of predictor variables, in our case we are interested in exploring whether or not there is a linear relationship between an individuals’ neck circumference and age, weight, wrist circumference, bicep circumference and height; and if we can appropriately estimate an individuals’ neck circumference knowing their age, weight, wrist circumference, bicep circumference and height. 
 
 Our population is 252 men between the ages of 22 and 81. The following variables were collected for each of the men: Density determined from underwater weighing, Percent body fat from Siri's (1956) equation, Age (years), Weight (lbs), Height (inches), Neck circumference (cm), Chest circumference (cm), Abdomen 2 circumference (cm), Hip circumference (cm), Thigh circumference (cm), Knee circumference (cm), Ankle circumference (cm), Biceps (extended) circumference (cm), Forearm circumference (cm), Wrist circumference (cm). Each column of the data set (from left to right) corresponds to each variable (first to last). With this data we will find the estimate of a male individual’s neck circumference based on their age, weight, wrist circumference, bicep circumference and height.
@@ -41,6 +48,10 @@ neck_size <- bodyfat %>%
   neck = 'Neck circumference (cm)')
 ```
 
+
+
+**Results:**
+
 ```{r}
 plot(neck ~ age, data = neck_size)
 plot(neck ~ weight, data = neck_size)
@@ -50,8 +61,6 @@ plot(neck ~ height, data = neck_size)
 ```
 
 If we look at the individual scatter plots for each of our predictor variables, we see that weight, wrist size, and bicep size all have fairly strong positive linear correlations with neck size. However, both age and height showed almost no correlation with neck size.
-
-
 
 ```{r}
 #Multiple Regression Model With Our 5 Predictor Variables
@@ -161,3 +170,9 @@ V_Unusual_Neck
 ```
 
 There are 26 possible men that can be classified as “unusual” according to the set above. The 26 men are given in the table below, including their age, weight, wrist size, bicep size, height, and neck circumference, as well as their "fairly usual" identification statistics. Out of those 26 men, 11 of them can be considered to be very "unusual".
+
+**Conclusion**
+
+In conclusion, the larger a man’s weight, bicep and wrist circumference are, the larger his predicted neck size will be . We are able to use the model’s fitted equation in order to predict the neck size. This is due to the model meeting linearity, homogeneity, non-collinearity and normality. Also, the model’s adjusted R^2 was high, the p-value for the coefficients in the linear regression model were all statistically significant and the nested F test’s p-value was also statistically significant. 
+
+In the future, we would like to be able to collect data that has classified the participants by race and age. As this data was collected in the pool, gravity did not play a factor in regards to measurement. As muscle is lost as you get older, it would be interesting to see how this affect’s someone’s neck size. 
