@@ -20,12 +20,12 @@ library(car)
 
 ##Abstract:
 
-
+The purpose of our project is to estimate a male individual's neck circumference based on their age, weight, wrist size, bicep size, and height. The data set "bodyfat" was used, and includes various body circumference measurements for 252 men between the ages of 22 and 81. Our group was interested in analzying whether or not their was a relationship between anticipated neck size and age, weight, wrist circumference, bicept circumference, and height. Based on our statistical analysis, we found that weight, wrist circumference, and bicept circumference are good predictors of one's neck circumference; whereas age and height are not as good of predictors for neck circumference. Our regression model having weight, wrist circumference, and bicept circumference as the predictor variables had the smaller of the two p-values was compared to the regression model including age but not height (p-value = 0.03058) and when compared to the full model (p-value = 0.09383). Overall, the higher a man’s weight, bicep and wrist circumference are, the larger his predicted neck size will be. 
 
 
 ##Introduction:
 
-The purpose of our project is to estimate a male individual's neck circumference based on their age, weight, wrist size, bicep size, and height. Knowing your neck circumference is a common measurement that men often need to know in order to buy clothing such as a button down shirt or neck ties. It has also been found that there is a connection between neck size, sleep apnea, and snoring. The larger one's neck is, the more likely they will have health complications (such as breathing when sleeping). Therefore, knowing one's neck size is not only important for fashion reasons but also health reasons.
+Knowing your neck circumference is a common measurement that men often need to know in order to buy clothing such as a button down shirt or neck ties. It has also been found that there is a connection between neck size, sleep apnea, and snoring. The larger one's neck is, the more likely they will have health complications (such as breathing when sleeping). Therefore, knowing one's neck size is not only important for fashion reasons but also health reasons.
 
 ##Data:
 
