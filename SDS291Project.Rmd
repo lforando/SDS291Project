@@ -126,7 +126,6 @@ vif(no_age_lm)
 
 Since all three coefficients analyzed are less than 5, there is no collinearity between these variables.
 
-
 **Residual Plots**
 ```{r}
 #Plot residuals
@@ -144,7 +143,7 @@ plot(no_age_lm)
 
 ***
 
-**Identifying Unusual Points in Regression**
+**Identifying Unusual Points**
 ```{r}
 #Outliers, Leverage, and Influence
 ##Outliers: Points that do not fit the regression line well, far away vertically from other points.
