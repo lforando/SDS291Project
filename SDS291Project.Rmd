@@ -2,7 +2,9 @@
 title: "SDS291 - Final Project"
 author: "Lauren Forando, Elle Jo Whalen, Jemimah Charles"
 date: "12/13/2019"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 ```{r, messages = FALSE, include = FALSE}
 library(readxl)
@@ -11,7 +13,7 @@ library(mosaic)
 library(car)
 ```
 
-####Estimating Neck Circumference Based on an Individual's Height, Weight, Age, Bicep Bize, and Wrist Size.
+####Estimating Neck Circumference Based on an Individual's Height, Weight, Age, Bicep Size, and Wrist Size.
 
 
 ![ ](https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/articles/2016/03/neck-measure-1487211705.jpg?resize=480:*)
@@ -20,12 +22,13 @@ library(car)
 
 ##Abstract:
 
-The purpose of our project is to estimate a male individual's neck circumference based on their age, weight, wrist size, bicep size, and height. The data set "bodyfat" was used, and includes various body circumference measurements for 252 men between the ages of 22 and 81. Our group was interested in analzying whether or not their was a relationship between anticipated neck size and age, weight, wrist circumference, bicept circumference, and height. Based on our statistical analysis, we found that weight, wrist circumference, and bicept circumference are good predictors of one's neck circumference; whereas age and height are not as good of predictors for neck circumference. Our regression model having weight, wrist circumference, and bicept circumference as the predictor variables had the smaller of the two p-values was compared to the regression model including age but not height (p-value = 0.03058) and when compared to the full model (p-value = 0.09383). Overall, the higher a man’s weight, bicep and wrist circumference are, the larger his predicted neck size will be. 
+The purpose of this project was to estimate a male individual's neck circumference based on their age, weight, wrist size, bicep size, and height. The data set "bodyfat" was used, and includes various body circumference measurements for 252 men between the ages of 22 and 81. We were interested in analyzing whether or not there is a relationship between anticipated neck size and the age, weight, wrist circumference, bicep circumference, and height of an individual. Based on our statistical analyses, it has been found that weight, wrist circumference, and bicep circumference are good predictors of one's neck circumference; whereas age and height are not as good of predictors for neck circumference. Our regression model having weight, wrist circumference, and bicep circumference as the predictor variables had the smaller of the two p-values was compared to the regression model including age but not height (p-value = 0.03058), and when compared to the full model (p-value = 0.09383). Overall, the higher a man’s weight, bicep and wrist circumference are, the larger his predicted neck size will be. 
 
 
 ##Introduction:
 
 Knowing your neck circumference is a common measurement that men often need to know in order to buy clothing such as a button down shirt or neck ties. It has also been found that there is a connection between neck size, sleep apnea, and snoring. The larger one's neck is, the more likely they will have health complications (such as breathing when sleeping). Therefore, knowing one's neck size is not only important for fashion reasons but also health reasons.
+
 
 ##Data:
 
@@ -71,6 +74,8 @@ plot(neck ~ height, data = neck_size)
 
 If we look at the individual scatter plots for each of our predictor variables, we see that weight, wrist size, and bicep size all have fairly strong positive linear correlations with neck size. However, both age and height showed almost no correlation with neck size.
 
+***
+
 ```{r}
 #Multiple Regression Model With Our 5 Predictor Variables
 neck_lm <- lm(neck ~ age + weight + wrist + bicep + height, data = neck_size)
@@ -84,12 +89,16 @@ summary(no_height_lm)
 no_age_lm <- lm(neck ~ weight + wrist + bicep, data = neck_size)
 summary(no_age_lm)
 ```
-First, we wanted to analyze the relationship between anticipated neck size and age, weight, wrist circumference, bicept circumference, and height. Because we are looking at multiple predictor variables, we will be running a Multiple Linear Regression (MLR) model. 
+
+
+
+First, we wanted to analyze the relationship between anticipated neck size and age, weight, wrist circumference, bicep circumference, and height. Because we are looking at multiple predictor variables, we will be running a Multiple Linear Regression (MLR) model. 
 
 After analyzing our first model, we wanted to know if we could find a simpler model that can tell us roughly the same about estimating neck size. This lead us to taking out height for Model 2. We then went even further and decided to take out age for Model 3. More is explained about this when analyzing the ANOVA tables. 
 
 Including height only increases our $R^2$ value by 0.0001. By removing height, our adjusted $R^2$ increases from 0.7386 to 0.7396. So, the model without height is a better predictor of neck size than the model including height. Looking at the p-values for the coefficients in our first model, we see that the p-value for height is 0.7978 making this variable not statistically significant to our regression model. Therefore, we removed it in our second model. Then, turning to our coefficient p-values in our second regression model, we see that age has the highest p-value at 0.03058, although being low enough to be statistically significant, it was still very high compared to the other p-values. We removed this because looking back at the individual scatter plots we see that the scatter plot between neck circumference and age had no correlation.
 
+***
 
 ```{r}
 
@@ -105,10 +114,13 @@ anova(no_age_lm, neck_lm)
 anova(no_age_lm, no_height_lm)
 ```
 
+
+
 Analyzing our ANOVA tables, we can see that Model 3 has the smallest p-value for the nested F-test out of our three models. Model 3 has the lowest p-value in both of its ANOVA tables, making it the most statistically significant model. When Model 1 and Model 3 were compared, there was a p-value of 0.09383, indicating that Model 3 is statistically better than Model 1 at a 90% significance level. When Model 3 was compared to Model 2, it had a p-value of 0.03058, once again indicating that Model 3 is statistically better than Model 2 at a significance level of both 90% and 95%. The nested F-test comparing Model 1 and Model 2 had a p-value of 0.7978, showing that the difference between the two models is not statistically significant. 
 
 The intercept of “neck” in the model no_age_lm, is understood as for someone who weighs zero pounds and has both a wrist and bicep circumference of zero centimeters, will have a neck circumference of 13.31 cm. The coefficient of "weight" in the model no_age_lm, is understood as for every increase of one pound in someone's weight, there is a 0.042 cm increase in the measurement of someone's neck, holding all other variables constant. The coefficient of "wrist" in the model no_age_lm, is understood as for every increase in the measurement of someone's wrist circumference by one centimeter, there is a 0.73 cm increase in the measurement of someone's neck, holding all other variables constant. The coefficient of "bicep" in the model no_age_lm, is understood as for every increase in the measurement of someone's bicep circumference by one centimeter, there is a 0.118 cm increase in the measurement of someone's neck, holding all other variables constant.
 
+***
 
 **Confidence Intervals**
 ```{r}
@@ -116,7 +128,11 @@ The intercept of “neck” in the model no_age_lm, is understood as for someone
 confint(no_age_lm)
 ```
 
+
+
 We are 95% confident that the true effect of weight on neck circumference, controlling for wrist and bicep circumference, is 0.03194604 and 0.05207665 cm. We are 95% confident that the true effect of wrist on neck circumference, controlling for weight and bicep circumference, is 0.48767606 and 0.97792142 cm. We are 95% confident that the true effect of bicep circumference on neck circumference, controlling for weight and wrist circumference, is 0.03165438 and 0.20443122 cm.
+
+***
 
 **VIF**
 ```{r}
@@ -124,7 +140,11 @@ We are 95% confident that the true effect of weight on neck circumference, contr
 vif(no_age_lm)
 ```
 
+
+
 Since all three coefficients analyzed are less than 5, there is no collinearity between these variables.
+
+***
 
 **Residual Plots**
 ```{r}
@@ -133,7 +153,7 @@ par(mfrow=c(2,2))
 plot(no_age_lm)
 ```
 
-***
+
 
 * The Residuals vs Fitted model shows that most of the data points fall equally above and below a horizontal line. This indicates that there is constant variance among our data points.
 
@@ -179,12 +199,14 @@ mutate(h_i = neck_diag$hat,
 V_Unusual_Neck
 ```
 
+
+
 There are 26 possible men that can be classified as “unusual” according to the set above. The 26 men are given in the table below, including their age, weight, wrist size, bicep size, height, and neck circumference, as well as their "fairly usual" identification statistics. Out of those 26 men, 11 of them can be considered to be very "unusual".
 
-
+***
 
 ##Conclusion:
 
 In conclusion, the higher a man’s weight, bicep and wrist circumference are, the larger his predicted neck size will be. We are able to use the model’s fitted equation in order to predict a male's neck size. This is due to the model meeting linearity, homogeneity, non-collinearity and normality. Also, the model’s adjusted $R^2$ was high, the p-value for the coefficients in the linear regression model were all statistically significant and the nested F test’s p-value was also statistically significant. This implies that the model can be used for predicting a male's neck size. However, this model did not take into account ethnicity, age and previous weight gain.
 
-In the future, we would like to be able to collect data that has classified the participants by race, the interactive term of significant weight loss and age. As this data was collected in the pool, gravity did not play a factor in regards to measurement. As muscle is lost as you get older, it would be interesting to see how this affect’s someone’s neck size. Another interesting effect on one's neck size could be the interactive term of someone losing a significant amount of weight and skin retention. Somoeone may have weighed more in the past and now just has excess skin. 
+In the future, we would like to be able to collect data that has classified the participants by race, the interactive term of significant weight loss and age. As this data was collected in the pool, gravity did not play a factor in regards to measurement. As muscle is lost as you get older, it would be interesting to see how this affect’s someone’s neck size. Another interesting effect on one's neck size could be the interactive term of someone losing a significant amount of weight and skin retention. Someone may have weighed more in the past and now just has excess skin. 
